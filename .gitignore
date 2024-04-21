@@ -1,0 +1,8 @@
+downloads/
+reports/
+videos/
+screenshots/
+node_modules/
+cypress.env.json
+.idea/
+.vscode/
