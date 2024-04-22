@@ -17,6 +17,11 @@
   "author": "AbmaelFerreira",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.7.3"
+    "cypress": "^13.7.3",
+    "cypress-plugin-api": "^2.11.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.5.0"
   }
 }

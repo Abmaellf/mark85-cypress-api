@@ -7,13 +7,34 @@ describe('POST /users', () =>{
         password: '141620'
     }
 
-    cy.request({
-      url: '/users',
-      method: 'POST',
-      body: user,
-      failOnStatusCode: false
-    }).then(response => {
-      expect(response.status).to.eq(200)
-    })
+    cy.task('deleteUser', user.email)
+
+    cy.postUser(user)
+			.then(response => {
+			  expect(response.status).to.eq(200)
+			})
+   
   })
+
+
+  it('duplicate email', ()=>{
+
+    const user = {
+        name: 'margo',
+        email: 'margo@hotmail.com',
+        password: '141620'
+    }
+    cy.task('deleteUser', user.email)
+
+    cy.postUser(user)
+    cy.postUser(user)
+			.then(response => {
+
+        const {message} =  response.body;
+			  expect(response.status).to.eq(409)
+        expect(message).to.equal('Duplicated email!')
+			})  
+  })
+
+
 })
