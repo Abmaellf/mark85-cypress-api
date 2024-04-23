@@ -3,17 +3,21 @@ describe('POST/sessions',  ()=>{
     it('user session', ()=>{
         //massa de teste
         const userData = {
-            name: 'abmael',
-            email: 'abmael_ninha@hotmail.com',
+            name: 'jefferson',
+            email: 'jefferson@hotmail.com',
             password: '141620'
         }
+
+        cy.task('deleteUser', userData.email)
+        cy.postUser(userData)
 
         cy.postSession(userData)
             .then(response => {
 
+                expect(response.status).to.eq(200)
+
                 const {user, token} = response.body
 
-                expect(response.status).to.eq(200)
                 expect(user.name).to.eq(userData.name)
                 expect(user.email).to.eq(userData.email)
                 expect(token).not.to.be.empty  //Não deve ser vazio
