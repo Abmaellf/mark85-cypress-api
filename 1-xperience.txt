@@ -1425,12 +1425,168 @@
 		
 			
 
+=============================================================================================================================		
+==========================================================    28. Validando response body            ===================================
+
+	### Adicionamos mais validações no registre a new task validando o name e as tags, 
+	
+			const { user, task } = this.tasks.create
+
+			        cy.task('deleteUser', user.email)
+
+			        cy.postUser(user)
+
+			        cy.postSession(user)
+			            .then(response => {
+			                cy.task('deleteTask', task.name, user.email)
+
+			                cy.postTask(task, response.body.token)
+				.then(response => {
+				    expect(response.status).to.eq(200)
+				    expect(response.body.name).to.eq(task.name)
+				    expect(response.body.tags).to.eq(task.tags)
+				})
+
+			                // Cypress.env('token', response.body.token)
+			            })
 
 
+			    })
 
+			})
 
+	
+	#### Mas o cypres retorna um erro informando que a comparação dos dados das tags estão divergentes  pois o cypress esta se preocupando com as tipages
+	
+			assertexpected [ nubank, smiles, ourocard ] to equal [ nubank, smiles, ourocard ]
+			AssertionError
+			expected [ 'nubank', 'smiles', 'ourocard' ] to equal [ 'nubank', 'smiles', 'ourocard' ]
+	
+	
+			it('register a new task', function () {
 
+			        
+	#### Para resolver nesse momento vamos alterar o seletor de comparação de igualdade no expect de: "eq"  para: "eql"
 
+		expect(response.body.tags).to.eql(task.tags)
+		
+	####  O  response de task, nos retorna os seguintes dados:
+	
+			{
+			  "name": "Pagar a fatura do cartão",
+			  "is_done": false,
+			  "tags": [
+			    "nubank",
+			    "smiles",
+			    "ourocard"
+			  ],
+			  "user": "66296d02463386d60bef1325",
+			  "_id": "66296d02463386d60bef1329"
+			}
 
+	### Vamos validar o campo is_done, pois o mesmo na criação será sempre false
+	
+	### Para isso em register a new task na chamada postTask vamos adicionar um expect
+	
+			it('register a new task', function () {
 
+			        const { user, task } = this.tasks.create
+
+			        cy.task('deleteUser', user.email)
+
+			        cy.postUser(user)
+
+			        cy.postSession(user)
+			            .then(response => {
+			                cy.task('deleteTask', task.name, user.email)
+
+			                cy.postTask(task, response.body.token)
+				.then(response => {
+				    expect(response.status).to.eq(200)
+				    expect(response.body.name).to.eq(task.name)
+				    expect(response.body.tags).to.eql(task.tags)
+				    expect(response.body.is_done).to.be.false
+				})
+
+			                // Cypress.env('token', response.body.token)
+			            })
+
+			    })
+	
+	### Também temos o campo user, vamos adicionar mais um expect e pegar o response do usuário comparando com o response da session
+		### obs, foi necessário alterar o nome da variavel responso da session pois os nomes estavam iguais, response
+		
+			it('register a new task', function () {
+
+			        const { user, task } = this.tasks.create
+
+			        cy.task('deleteUser', user.email)
+
+			        cy.postUser(user)
+
+			        cy.postSession(user)
+			            .then(userResp => {
+			                cy.task('deleteTask', task.name, user.email)
+
+			                cy.postTask(task, userResp.body.token)
+				.then(response => {
+				    expect(response.status).to.eq(200)
+				    expect(response.body.name).to.eq(task.name)
+				    expect(response.body.tags).to.eql(task.tags)
+				    expect(response.body.is_done).to.be.false
+				    expect(response.body.user).to.eq(userResp.body._id)
+				})
+
+			                // Cypress.env('token', response.body.token)
+			            })
+
+			    })
+	
+	
+	## valindando o indentificador da tarefa
+	
+	## vamos contar as quantidades de caracteres do id
+	
+		it('register a new task', function () {
+
+		        const { user, task } = this.tasks.create
+
+		        cy.task('deleteUser', user.email)
+
+		        cy.postUser(user)
+
+		        cy.postSession(user)
+		            .then(userResp => {
+		                cy.task('deleteTask', task.name, user.email)
+
+		                cy.postTask(task, userResp.body.token)
+			.then(response => {
+			    expect(response.status).to.eq(200)
+			    expect(response.body.name).to.eq(task.name)
+			    expect(response.body.tags).to.eql(task.tags)
+			    expect(response.body.is_done).to.be.false
+			    expect(response.body.user).to.eq(userResp.body.user._id)
+			    expect(response.body._id.length).to.eq(24)
+			})
+
+		                // Cypress.env('token', response.body.token)
+		            })
+
+		    })
+	
+	
+	
+
+=============================================================================================================================		
+==========================================================   29. Tarefa duplicada          ===================================	
+	
+			
+	
+	
+	
+	
+	
+	
+	
+	
 
