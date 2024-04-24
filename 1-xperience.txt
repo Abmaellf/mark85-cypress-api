@@ -1245,18 +1245,185 @@
 			})
 
 
+		
+=============================================================================================================================		
+==========================================================    27. Qualidade dos dados            ==================================	
+
+	### Para garantir assertividade do teste é importante remover a tarefa antes de cadastrar, pois estamos usando massa de teste fixa
+	
+	### Vamosa cessar o arquivo cypress.config.js 
+		Vamos criar uma nova tarefa abaixo da tarefa deleteUser
+		
+			
+				const { defineConfig } = require("cypress");
+				const {connect } = require('./cypress/support/mongo')
+				require('dotenv').config()
 
 
+				module.exports = defineConfig({
+				  e2e: {
+				   async  setupNodeEvents(on, config) {
+				      // implement node event listeners here
+
+				      const db = await connect();
+
+				      on('task', {
+
+				       async deleteUser(email) {
+				          const users = db.collection('users')
+				          await users.deleteMany({email: email})
+				          return null;
+				        },
+				        async deleteTask(tasksName) {
+				          const tasks = db.collection('tasks')
+				          await tasks.deleteMany({name: tasksName})
+				          return null;
+				        }
+				      })
+				    },
+				    baseUrl: "http://localhost:3333"
+				  },
+				});
+
+	### Agora em nossa switch register a new task dentro do postSession antes da chamada da api, vamos chamar a nossa função task chamada 
+	        deleteTask passando o task.name
+	        
+	        	...
+	        	
+		        	cy.postSession(user)
+			            .then(response => {
+
+			                cy.api({
+				url: '/tasks',
+				method: 'POST',
+				body: task,
+				headers: {
+				    authorization: response.body.token
+				},
+				failOnStatusCode: false
+			                }).then(response => {
+				expect(response.status).to.eq(200)
+			                })
+			                Cypress.env('token', response.body.token)
+			  })
+	                 ...
+	                 
+	###      Tornando nosso testes idependente, pois caso alguem exclui-a o usuário do bd o nosso teste ira recriar e se existir ira delear
+	
+				describe('POST /task', () => {
+
+				   beforeEach(function () {
+				    cy.fixture('tasks').then(function (tasks){
+				        this.tasks =  tasks
+				    })
+				   })
+
+				    it('register a new task', function() {
+				        
+				        const { user, task } = this.tasks.create
+
+				        cy.task('deleteUser', user.email)
+				        cy.postUser(user)
+
+				        cy.task('deleteTask', task.name)
+
+				        cy.postSession(user)
+				            .then(response => {
+
+				                cy.api({
+					url: '/tasks',
+					method: 'POST',
+					body: task,
+					headers: {
+					    authorization: response.body.token
+					},
+					failOnStatusCode: false
+				                }).then(response => {
+					expect(response.status).to.eq(200)
+				                })
+				                Cypress.env('token', response.body.token)
+				            })
+
+				        
+				    })
+
+				})             
+	
+ 	####  Resolvendo o problema caso alguem  crie uma tarefa com o mesmo nome os nossos testes ira deletar todas
+ 	
+ 	## Vamos acessar o cypress.config.js
+ 		
+								
+			const { defineConfig } = require("cypress");
+			const {connect } = require('./cypress/support/mongo')
+			require('dotenv').config()
 
 
+			module.exports = defineConfig({
+			  e2e: {
+			   async  setupNodeEvents(on, config) {
+			      // implement node event listeners here
+
+			      const db = await connect();
+
+			      on('task', {
+
+			       async deleteUser(email) {
+			          const users = db.collection('users')
+			          await users.deleteMany({email: email})
+			          return null;
+			        },
+			        async deleteTask(tasksName, emailUser) {
+
+			          const users = db.collection('users')
+
+			          const user =  users.findOne({email: emailUser})
+
+			          const tasks = db.collection('tasks')
+			          await tasks.deleteMany({name: tasksName, user: user._id})
+			          return null;
+			        }
+			      })
+			    },
+			    baseUrl: "http://localhost:3333"
+			  },
+			});
 
 
+	### Agora  em nosso testes  task  dentro do postSession, no momento que vamos deletar uma task vamos passar também user.email
 
+						
+			    it('register a new task', function() {
+			        
+			        const { user, task } = this.tasks.create
 
+			        cy.task('deleteUser', user.email)
+			        
+			        cy.postUser(user)        
 
+			        cy.postSession(user)
+			            .then(response => {
+			                cy.task('deleteTask', task.name, user.email)
 
+			                cy.api({
+				url: '/tasks',
+				method: 'POST',
+				body: task,
+				headers: {
+				    authorization: response.body.token
+				},
+				failOnStatusCode: false
+			                }).then(response => {
+				expect(response.status).to.eq(200)
+			                })
+			                Cypress.env('token', response.body.token)
+			            })
+			    })
 
-
+	### Agora vamos organizar nosso codigo
+		## vamos começar retirando cy.api e movento para o command
+		
+			
 
 
 
