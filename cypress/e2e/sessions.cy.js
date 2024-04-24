@@ -1,12 +1,15 @@
 describe('POST/sessions',  ()=>{
 
-    it('user session', ()=>{
-        //massa de teste
-        const userData = {
-            name: 'jefferson',
-            email: 'jefferson@hotmail.com',
-            password: '141620'
-        }
+    beforeEach(function() {
+        cy.fixture('users').then(function(users){
+            this.users = users
+        })
+    })
+
+    it('user session', function() {
+            
+        //massa de teste que esta no fixture
+        const userData = this.users.login
 
         cy.task('deleteUser', userData.email)
         cy.postUser(userData)
@@ -24,13 +27,10 @@ describe('POST/sessions',  ()=>{
             })
     })
 
-    it('Invalid password', () => {
+    it('Invalid password', function() {
 
-         //massa de teste
-         const user = {
-            email: 'abmael_ninha@hotmail.com',
-            password: '14162'
-        }
+          //massa de teste que esta no fixture
+         const user = this.users.inv_pass
 
         cy.postSession(user)
             .then(response => {
@@ -38,13 +38,10 @@ describe('POST/sessions',  ()=>{
             })
     })
 
-    it('Invalid email', () => {
+    it('Invalid email', function() {
 
-        //massa de teste
-        const user = {
-           email: 'abmael_ninha@hotmail.co',
-           password: '141620'
-       }
+         //massa de teste que esta no fixture
+        const user = this.users.email_404
 
        cy.postSession(user)
            .then(response => {
@@ -52,18 +49,5 @@ describe('POST/sessions',  ()=>{
            })
    })
 
-
-})
-
-Cypress.Commands.add('postSession', (user)=> {
-
-    cy.api({
-        url:'/sessions',
-        method:'POST',
-        body: {email:user.email, password: user.password},
-        failOnStatusCode:false,
-    }).then(response => {
-        return response
-    })
 
 })

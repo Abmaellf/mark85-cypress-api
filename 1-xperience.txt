@@ -1,0 +1,1061 @@
+
+		
+		#########  GITHUB ##################  
+		########## MONGODB #########################
+		https://cloud.mongodb.com/v2/661ddfdc78089f3466691965#/clusters/detail/Cluster0
+
+				usuario abmaelqax 
+				senha Abmaelxperience
+				banco de dados: markdb
+
+				npm install mongodb
+
+				mongodb+srv://abmaelqax:<password>@cluster0.nmaphmy.mongodb.net/
+				mongodb+srv://abmaelqax:<password>@cluster0.nmaphmy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+
+		##########  RABBITMQ
+		https://api.cloudamqp.com/console/b80cb0de-9085-4d17-993f-6add4807a2e2/details
+
+				amqps://yzolzakg:JvGoDhAcKum2XzXN84ip4szZJWFz0_dc@toad.rmq.cloudamqp.com/yzolzakg
+				
+				JvGoDhAcKum2XzXN84ip4szZJWFz0_dc
+
+
+
+
+		#########  JAIMINHO MAIL
+		https://ethereal.email/
+		
+		
+		########################  INICIAR AS APLICAÇÕES   ####################
+		####################			####################
+		
+		===   WEB
+		Em app/web
+			Executar o comandi npm run dev
+			
+			Endereço      http://localhost:3000/
+			
+		=== API
+			Executar o comando npm run dev
+			
+			Endereço      http://localhost:3333/users
+
+		=== EMAIL
+			Executar o comando npm run dev
+			
+			
+			
+		
+		
+		####################     ERRO CASO OCORRA O ERRO ABAIXO              ########
+		
+				❯ npx cypress run
+				No version of Cypress is installed in: /home/abmael/.cache/Cypress/13.7.3/Cypress
+
+				Please reinstall Cypress by running: cypress install
+
+				----------
+
+				Cypress executable not found at: /home/abmael/.cache/Cypress/13.7.3/Cypress/Cypress
+
+				----------
+
+				Platform: linux-x64 (Ubuntu - 22.04)
+				Cypress Version: 13.7.3
+				❯ npx cypress run
+				No version of Cypress is installed in: /home/abmael/.cache/Cypress/13.7.3/Cypress
+
+				Please reinstall Cypress by running: cypress install
+
+				----------
+
+				Cypress executable not found at: /home/abmael/.cache/Cypress/13.7.3/Cypress/Cypress
+
+				----------
+
+				Platform: linux-x64 (Ubuntu - 22.04)
+				Cypress Version: 13.7.3
+				❯ npx cypress install
+				Installing Cypress (version: 13.7.3)
+
+	
+
+		### Criar  o projeto node
+		
+		Criar a pasta mark85-cypress-api/
+		
+		npm init        ou  npm init -y
+		
+		
+		Nome do projeto: mark85-cypress-api/
+		command npx cypress run
+		
+		Executar o comando:
+		
+			npm i cypress -D
+			
+		Abrindo a interface grafica do cypress pela primeira vez
+		
+			npx cypress open
+
+		#Escoher  a opção para E2E Testing
+		
+		# Configurações continuar
+		
+		# Escoher  o navegador
+		
+		#Create your first spec   e vamos clickar em Creae new spec
+		
+			Enter the path your new spec
+			   cypress\e2e\spec.cy.js
+			   
+		# Vamos alterar o endereço para:
+		
+			cypress\e2e\users.cy.js
+		
+		## Vamos clicar em create spec
+		
+			Será criado um describ com um it padrão, e vamos fechar clicando no x pois não vamos executar
+			
+		###  Vamos acessar o projeto no vscode
+		
+			## Estrutura criada
+			
+				> cypress
+				> node_modules
+				   cypress.config.js
+				   package-lock.json
+				   package.json
+				   
+			## Apagar a pasta de downloads pois não precisaremos dela no momento
+			
+			
+=============================================================================================================================		
+==========================================================         17. Task com MongoDB              ====================================				
+
+	### instanlando o driver do mongodb no node
+	
+	npm i mongodb		
+					
+	### Dentro da pasta suporte vamos criar um arquivo chamado mongo.js	
+		Vamos fazer a nossa função de connexão e desconexão
+	
+	###  Vamos fazer a importação e criar uma constante quer será nossa URI
+	
+	
+
+			import { MongoClient } from 'mongodb'
+			//const{ MongoClient} = require ('monogodb')
+
+			const mongoUri = 'mongodb+srv://abmaelqax:Abmaelxperience@cluster0.nmaphmy.mongodb.net/?
+			retryWrites=true&w=majority&appName=Cluster0'
+			
+			
+	### Vamos criar outra constante para se a nossa instancia do mongodb
+	
+		
+
+			import { MongoClient } from 'mongodb'
+			//const{ MongoClient} = require ('monogodb')
+
+			const mongoUri = 'mongodb+srv://abmaelqax:Abmaelxperience@cluster0.nmaphmy.mongodb.net/markdb?
+			retryWrites=true&w=majority&appName=Cluster0'
+
+			const client = new MongoClient(mongoUri);
+	
+	### vamos criar a função para connectar
+	
+			
+
+			import { MongoClient } from 'mongodb'
+			//const{ MongoClient} = require ('monogodb')
+
+			const mongoUri = 'mongodb+srv://abmaelqax:Abmaelxperience@cluster0.nmaphmy.mongodb.net/markdb
+			?retryWrites=true&w=majority&appName=Cluster0'
+
+			const client = new MongoClient(mongoUri);
+
+			function connect() {
+			    client.connect()
+
+			    return client.db('markdb')
+			}
+
+	### Vamos criar a função para desconexão
+	
+			
+
+			import { MongoClient } from 'mongodb'
+			//const{ MongoClient} = require ('monogodb')
+
+			const mongoUri = 'mongodb+srv://abmaelqax:Abmaelxperience@cluster0.nmaphmy.mongodb.net/markdb?
+			retryWrites=true&w=majority&appName=Cluster0'
+
+			const client = new MongoClient(mongoUri);
+
+			function connect() {
+			    client.connect()
+
+			    return client.db('markdb')
+			}
+
+			function disconnect() {
+			    client.disconnect()
+			}	
+		
+	### Essa funções são assicrona portante temos que envolver com async antes da função e await na chamada do  metodo de conexão e desconexão	
+		
+		
+			
+
+				
+
+		const{ MongoClient} = require ('monogodb')
+
+		    const mongoUri = 'mongodb+srv://abmaelqax:Abmaelxperience@cluster0.nmaphmy.mongodb.net/markdb?
+		    retryWrites=true&w=majority&appName=Cluster0'
+
+		    const client = new MongoClient(mongoUri);
+
+		    async function connect() {
+		        await client.connect()
+
+		        return client.db('markdb')
+		    }
+
+		    async function disconnect() {
+		        await client.disconnect()
+		    }
+		module.exports = {connect, disconnect }
+
+
+			}
+			
+	
+		
+	#### 	Ajustando o cypress,config.js
+	
+							
+								
+			const { defineConfig } = require("cypress");
+			const {connect } = require('./cypress/support/mongo')
+
+
+			module.exports = defineConfig({
+			  e2e: {
+			   async  setupNodeEvents(on, config) {
+			      // implement node event listeners here
+
+			      const db = await connect();
+
+			      on('task', {
+
+			       async deleteUser(email) {
+			          const users = db.collection('users')
+			          await users.deleteMany({email: email})
+			          return null;
+			        }
+			      })
+			    },
+			    baseUrl: 'http://localhost:3333'
+			  },
+			});
+
+
+	####   Deletando o dado em nosso teste
+	
+		describe('POST /users', () =>{
+			  it('register a new user', ()=>{
+
+			    const user = {
+			        name: 'margo',
+			        email: 'margo@hotmail.com',
+			        password: '141620'
+			    }
+
+		             ++++    cy.task('deleteUser', user.email)
+
+			    cy.request({
+			      url: '/users',
+			      method: 'POST',
+			      body: user,
+			      failOnStatusCode: false
+			    }).then(response => {
+			      expect(response.status).to.eq(200)
+			    })
+			  })
+			})
+		
+		
+	### Vamos pegar o resultado da requisição para validar se estamos de fato deletando
+	
+		describe('POST /users', () =>{
+			  it('register a new user', ()=>{
+
+			    const user = {
+			        name: 'margo',
+			        email: 'margo@hotmail.com',
+			        password: '141620'
+			    }
+
+			    cy.task('deleteUser', user.email)
+
+			    cy.request({
+			      url: '/users',
+			      method: 'POST',
+			      body: user,
+			      failOnStatusCode: false
+			    }).then(response => {
+			      expect(response.status).to.eq(200)
+		++++      cy.log(JSON.stringify(response.body))
+			    })
+			  })
+			})	
+		
+
+
+
+		
+=============================================================================================================================		
+==========================================================        18. Plugin para testes de API              ====================================		
+	
+		### Instalar o plugin
+			npm i cypress-plugin-api -D
+		
+		### importar o plugin no arquivo suporte / e2e
+		
+			
+=============================================================================================================================		
+==========================================================        19. Custom Commands             ====================================					
+			
+		Hoje temos apenas um unico caso de testes,  mas teremos mais cobertura e pra isso vamos implementar uma customer command preparando para 
+		esse aumento de cobertura
+		
+		### caso de teste users.cy.js
+		
+			Dentro do do nosso users no final do codigo vamos implementar o nosso commands
+			
+			...
+			
+			})
+
+
+			Cypress.Commands('postUser', (user) => {
+			    Colar aqui
+			})
+		
+		###  Vamos recortar  o nosso testes:
+		
+			cy.api({
+			    url: '/users',
+			    method: 'POST',
+			    body: user,
+			    failOnStatusCode: false
+			  }).then(response => {
+			    expect(response.status).to.eq(200)
+			    cy.log(JSON.stringify(response.body))
+			  })
+		
+		E colar dentro do command postUser, ficando assim:
+		
+					describe('POST /users', () =>{
+					  it('register a new user', ()=>{
+
+					    const user = {
+					        name: 'margo',
+					        email: 'margo@hotmail.com',
+					        password: '141620'
+					    }
+
+					    cy.task('deleteUser', user.email)
+					   
+					  })
+					})
+
+
+					Cypress.Commands('postUser', (user) => {
+					  cy.api({
+					    url: '/users',
+					    method: 'POST',
+					    body: user,
+					    failOnStatusCode: false
+					  }).then(response => {
+					    expect(response.status).to.eq(200)
+					    cy.log(JSON.stringify(response.body))
+					  })
+					})
+	
+		### vamos modificar o call back da requisição com um retorno
+		
+			Cypress.Commands.add('postUser', (user) => {
+			  cy.api({
+			    url: '/users',
+			    method: 'POST',
+			    body: user,
+			    failOnStatusCode: false
+		                 +++  }).then(response => {
+		                 +++    return response
+			  })
+			})
+
+		####  Utilizando esse customer Command dentro da massa de teste
+		
+			cy.postUser(user)
+			   .then(response => { response => {
+			          expect(response.status).to.eq(200)
+			       }
+			
+				
+		### Vamos mover o command para o arquivo commands.js	
+			
+				Cypress.Commands.add('postUser', (user) => {
+				  cy.api({
+				    url: '/users',
+				    method: 'POST',
+				    body: user,
+				    failOnStatusCode: false
+			             		  }).then(response => {
+			                   			  return response
+				 	 })
+				})
+				
+				
+				
+				
+				
+=============================================================================================================================		
+==========================================================        20. Cobertura de testes	===================================				
+			
+	Em user.js que é o nosso teste, vamos duplicar o nosso teste e vamos modificar para o conflito 409 duplicated email!
+	
+		
+			  it.only('duplicate email', ()=> {
+
+			    const user = {
+			        name: 'margo',
+			        email: 'margo@hotmail.com',
+			        password: '141620'
+			    }
+			    cy.task('deleteUser', user.email)
+
+			    cy.postUser(user)
+			    cy.postUser(user)
+						.then(response => {
+
+			        const {message} =  response.body;
+						  expect(response.status).to.eq(409)
+			        expect(message).to.equal('Duplicated email!')
+						})  
+			  })			
+				
+				
+				
+=============================================================================================================================		
+==========================================================     21. Ganchos e campos obrigatórios  ==================================
+
+		# Todos  os campos são obrigatórios
+		
+		
+		### Validando o name, verificando status e message
+							
+				  context.only('required fields',() => {
+				      const user = {
+				        name: 'margo',
+				        email: 'margo@hotmail.com',
+				        password: '141620'
+				    }
+
+				    it('name is required',() => {
+
+				      delete user.name
+
+				      cy.postUser(user)
+				        .then(response => {
+				        
+				          const { message } = response.body
+
+				          expect(response.status).to.eq(400)
+				          expect(message).to.eq('ValidationError: \"name\" is required')
+				        })
+				    })
+				  })			
+
+	### Validando email, criando um gancho com beforEach e reiniciado a massa teste em cada cenário
+	
+			it('email is required',() => {
+
+			      delete user.email
+
+			      cy.postUser(user)
+			        .then(response => {
+
+			          const { message } = response.body
+
+			          expect(response.status).to.eq(400)
+			          expect(message).to.eq('ValidationError: \"email\" is required')
+			        })
+			    })
+		
+	### Validando a senha 			
+				
+				
+=============================================================================================================================		
+==========================================================     22. Autenticação por Token               ==================================
+
+	### Na pasta e2e vamos criar um novo arquivo chamado sessions.cy.js
+	
+	### POST session com sucesso
+		describe('POST/sessions',  ()=>{
+		
+		    it('user session', ()=>{
+		       
+
+		        //massa de teste
+		        const user = {
+		            email: 'abmael_ninha@hotmail.com',
+		            password: '141620'
+		        }
+
+		        cy.postSession(user)
+		            .then(response => {
+		                expect(response.status).to.eq(200)
+		            })
+
+		    })
+		})
+
+		Cypress.Commands.add('postSession', (user)=>{
+
+		    cy.api({
+		        url:'/sessions',
+		        method:'POST',
+		        body: user,
+		    }).then(response => {
+		        return response
+		    })
+		})
+				
+				
+	######  Password Invalido
+	
+			
+			    it('Invalid password', () => {
+
+			         //massa de teste
+			         const user = {
+			            email: 'abmael_ninha@hotmail.com',
+			            password: '14162'
+			        }
+
+			        cy.postSession(user)
+			            .then(response => {
+			                expect(response.status).to.eq(401)
+			            })
+			    })			
+				
+				
+	#### Email invalido
+	
+			 it('Invalid email', () => {
+
+			        //massa de teste
+			        const user = {
+			           email: 'abmael_ninha@hotmail.co',
+			           password: '141620'
+			       }
+
+			       cy.postSession(user)
+			           .then(response => {
+			               expect(response.status).to.eq(401)
+			           })
+			   })	
+			   
+	#### Ajustando o commando para testar o name, mesmo que o não seja requisito para a authenticação
+	
+				
+		Cypress.Commands.add('postSession', (user)=> {
+
+		    cy.api({
+		        url:'/sessions',
+		        method:'POST',
+		        body: {email:user.email, password: user.password},
+		        failOnStatusCode:false,
+		    }).then(response => {
+		        return response
+		    })		
+	
+	
+	##### Ajustando o teste de sucesso da session para validar o name, email 
+	
+			 it('user session', ()=>{
+			        //massa de teste
+			        const userData = {
+			            name: 'abmael',
+			            email: 'abmael_ninha@hotmail.com',
+			            password: '141620'
+			        }
+
+			        cy.postSession(userData)
+			            .then(response => {
+
+			                const {user} = response.body
+
+			                expect(response.status).to.eq(200)
+			                expect(user.name).to.eq(userData.name)
+			                expect(user.email).to.eq(userData.email)
+			            })
+			    })	
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+				
+=============================================================================================================================		
+==========================================================     23 . Controlando entrada e saida de dados              ==================================
+
+
+	### Utilizando uma nova massa de teste para o testes de session
+	
+			describe('POST/sessions',  ()=>{
+
+			    it('user session', ()=>{
+			        //massa de teste
+			        const userData = {
+			++          name: 'jefferson',
+			++          email: 'jefferson@hotmail.com',
+			++          password: '141620'
+			        }
+			...
+	### Mas identificamos que esse usuário não existe, por isso devemos chamar o metodo cypress    ->   cy.postUser(userData)
+
+				describe('POST/sessions',  ()=>{
+
+				    it('user session', ()=>{
+				        //massa de teste
+				        const userData = {
+				            name: 'jefferson',
+				            email: 'jefferson@hotmail.com',
+				            password: '141620'
+				        }
+
+			+++	        cy.postUser(userData)
+
+				        cy.postSession(userData)
+				            .then(response => {
+
+	###  O teste funciona, cria o usuário, mas se executarmos novamente, vamos verificar que  o teste POST  /users retorna um duplicated email, status code 409
+	
+	###  O teste passa pois não estamos fazendo nenhuma validação
+	### Para corrigir, vamos chamar o vamos chamar a task cypress cy.task() antes do metodo cypress -> cy.postUser(userData), para deletar o usuário caso ele exista
+	
+		
+		 it('user session', ()=> {
+		 
+		        //massa de teste
+		        const userData = {
+		            name: 'jefferson',
+		            email: 'jefferson@hotmail.com',
+		            password: '141620'
+		        }
+
+		+++    cy.task('deleteUser', userData.email)
+		        cy.postUser(userData)
+
+		        cy.postSession(userData)
+		            .then(response => {
+
+		                expect(response.status).to.eq(200)
+
+		                const {user, token} = response.body
+
+		                expect(user.name).to.eq(userData.name)
+		                expect(user.email).to.eq(userData.email)
+		                expect(token).not.to.be.empty  //Não deve ser vazio
+		          })
+		  })
+	
+		
+		
+=============================================================================================================================		
+==========================================================     24. Fixtures & Funções do Javascript            ==================================
+	
+		### vamos criar dentro da pasta fixture um arquivo chamado users.json
+		
+				{
+				  "sessions": {
+				    "name": "jefferson",
+				    "email": "jefferson@hotmail.com",
+				    "password": "141620"
+				  },
+
+				  "inv_pass": {
+				    "email": "abmael_ninha@hotmail.com",
+				    "password": "14162"
+				  },
+
+				  "email_404": {
+				    "email": "abma_ninha@hotmail.com",
+				    "password": "141620"
+				  }
+
+				}
+
+	### Vamos utilizar a fixture e nossa massa de testes sessions
+	
+	### No inicio do nosso teste user session, vamos chamar o nosso metodo fixture:
+	
+		 it('user session', ()=>{
+
+		        cy.fixture('users').then(function(users) {
+		        	// Aqui vamos colar toda a massa de teste e todas as espec referente a sessions 
+		        }
+		        
+		        ...	
+
+	### Ficando dessa forma:
+	
+				 cy.fixture('users').then(function(users){
+				            //massa de teste
+				            
+				        const userData = {
+				            name: 'jefferson',
+				            email: 'jefferson@hotmail.com',
+				            password: '141620'
+				        }
+
+				        cy.task('deleteUser', userData.email)
+				        cy.postUser(userData)
+
+				        cy.postSession(userData)
+				            .then(response => {
+
+				                expect(response.status).to.eq(200)
+
+				                const {user, token} = response.body
+
+				                expect(user.name).to.eq(userData.name)
+				                expect(user.email).to.eq(userData.email)
+				                expect(token).not.to.be.empty  //Não deve ser vazio
+				            })
+				        })
+
+	### Agora ao inves de utilizarmos a massa de teste vamos fazer referencia a nossa fixture
+	
+	@@@ Antes vamos corrigir em users.json a massa session para login
+	
+	###  Agora vamos atribuir para a nossa constante userData o valor de json
+	
+			 it('user session', ()=>{
+
+			        cy.fixture('users').then(function(users){
+			            
+			        //massa de teste que esta no fixture
+			++++  const userData = users.login
+
+			        cy.task('deleteUser', userData.email)
+			        cy.postUser(userData)
+
+			        cy.postSession(userData)
+			            .then(response => {
+
+			                expect(response.status).to.eq(200)
+
+			                const {user, token} = response.body
+
+			                expect(user.name).to.eq(userData.name)
+			                expect(user.email).to.eq(userData.email)
+			                expect(token).not.to.be.empty  //Não deve ser vazio
+			            })
+			        })
+			    })
+
+		##################################################################################################
+		################## OBSERVAÇÃO: ESSA FORMA ACIMA É CORRETA QUE É FEITA NO CYPRESS PARA UTILIZAR AS FIXTURE ########
+		################## AGORA VAMOS UTILIZAR UMA FORMA QUE O PROFESSOR EXEMPLIFICA, QUE MELHORA O ENTENDIMENTO###
+		
+		#### Vamos criar um beforEach e inicializaar a constante users como se fosse um construtor com o auxiliar this, dessa forma é possível acessá-lá em
+		           todos os its
+		
+			describe('POST/sessions',  ()=>{
+
+			    beforeEach(()=>{
+			        cy.fixture('users').then(function(users){
+			            this.users = users
+			        })
+			    })
+
+		### Agora vamos retornar como era antes sem o fixture
+		
+		
+			DE:
+			
+				 it.only('user session', ()=>{
+
+			 retirar ----        cy.fixture('users').then(function(users) {
+				            
+				            //massa de teste que esta no fixture
+				            const userData = users.login
+
+				            cy.task('deleteUser', userData.email)
+				            cy.postUser(userData)
+
+				            cy.postSession(userData)
+				                .then(response => {
+
+					expect(response.status).to.eq(200)
+
+					const {user, token} = response.body
+
+					expect(user.name).to.eq(userData.name)
+					expect(user.email).to.eq(userData.email)
+					expect(token).not.to.be.empty  //Não deve ser vazio
+				                })
+			retirar  ---         })
+				 })
+			 PARA :
+			 
+			 		 it.only('user session', ()=>{
+
+					            
+					            //massa de teste que esta no fixture
+					            const userData = users.login
+
+					            cy.task('deleteUser', userData.email)
+					            cy.postUser(userData)
+
+					            cy.postSession(userData)
+					                .then(response => {
+
+						expect(response.status).to.eq(200)
+
+						const {user, token} = response.body
+
+						expect(user.name).to.eq(userData.name)
+						expect(user.email).to.eq(userData.email)
+						expect(token).not.to.be.empty  //Não deve ser vazio
+					                })
+					    })
+			
+
+		### Ajustando o Invalid password
+		
+			DE:  
+			
+				 it('Invalid password', () => {
+
+				         //massa de teste
+				         const user = {
+				            email: 'abmael_ninha@hotmail.com',
+				            password: '14162'
+				        }
+
+				        cy.postSession(user)
+				            .then(response => {
+				                expect(response.status).to.eq(401)
+				            })
+				    })
+
+			PARA :
+			
+				  it('Invalid password', () => {
+
+				         //massa de teste
+				         const user = this.users = users.inv_pass
+
+				        cy.postSession(user)
+				            .then(response => {
+				                expect(response.status).to.eq(401)
+				            })
+				    })
+
+		####  Ajustando o  Invalid email
+		
+			it('Invalid email', () => {
+
+			        //massa de teste
+			        const user = this.users =  users.email_404
+
+			       cy.postSession(user)
+			           .then(response => {
+			               expect(response.status).to.eq(401)
+			           })
+			   })
+
+		####  Não é possível pois o javascript diz que o this.users é undefined, pois as funções devem ser convecionais com a palavra reservada function
+		
+			Retiramos os arraon function dos its e do before para que seja possível executar os testes com as fixture iniciadas como construtor no
+			beforEaach
+			
+				describe('POST/sessions',  ()=>{
+
+				    beforeEach(function() {
+				        cy.fixture('users').then(function(users){
+				            this.users = users
+				        })
+				    })
+
+				    it('user session', function() {
+				            
+				        //massa de teste que esta no fixture
+				        const userData = this.users.login
+
+				        cy.task('deleteUser', userData.email)
+				        cy.postUser(userData)
+
+				        cy.postSession(userData)
+				            .then(response => {
+
+				                expect(response.status).to.eq(200)
+
+				                const {user, token} = response.body
+
+				                expect(user.name).to.eq(userData.name)
+				                expect(user.email).to.eq(userData.email)
+				                expect(token).not.to.be.empty  //Não deve ser vazio
+				            })
+				    })
+
+				    it('Invalid password', function() {
+
+				          //massa de teste que esta no fixture
+				         const user = this.users.inv_pass
+
+				        cy.postSession(user)
+				            .then(response => {
+				                expect(response.status).to.eq(401)
+				            })
+				    })
+
+				    it('Invalid email', function() {
+
+				         //massa de teste que esta no fixture
+				        const user = this.users.email_404
+
+				       cy.postSession(user)
+				           .then(response => {
+				               expect(response.status).to.eq(401)
+				           })
+				   })
+
+
+				})
+	
+	############## Foi ajustado a fixture user para receber a massa de dados dos testes de cadastro
+	
+			Adicionado no fim do arquivo
+			
+				"create": {
+				      "name": "margo",
+				      "email": "margo@hotmail.com",
+				      "password": "141620"
+				    },
+				    "dup_email": {
+				      "name": "margo",
+				      "email": "margo@hotmail.com",
+				      "password": "141620"
+				    },
+				    "required": {
+				      "name": "margo",
+				      "email": "margo@hotmail.com",
+				      "password": "141620"
+				    }
+	#### Ajustamos todo o codigo do teste de cadastro de usuarios users.cy.js
+	
+				describe('POST /users', () =>{
+
+				  beforeEach(function() {
+				    cy.fixture('users').then(function(users){
+				        this.users = users
+				    })
+				})
+
+				  it('register a new user', function() {
+
+				    const user = this.users.create
+
+				    cy.task('deleteUser', user.email)
+
+				    cy.postUser(user)
+							.then(response => {
+							  expect(response.status).to.eq(200)
+							})
+				   
+				  })
+
+
+				  it('duplicate email', function() {
+
+				    const user = this.users.dup_email
+				    cy.task('deleteUser', user.email)
+
+				    cy.postUser(user)
+				    cy.postUser(user)
+							.then(response => {
+
+				        const {message} =  response.body;
+							  expect(response.status).to.eq(409)
+				        expect(message).to.equal('Duplicated email!')
+							})  
+				  })
+
+				  context('required fields',function()  {
+
+				    let user;
+
+				    // Esse gancho sempre será executado quando houver um it(cenário)
+				    beforeEach(function() {
+				      user = this.users.required
+				    })
+
+				    it('name is required',function()  {
+
+				      delete user.name
+
+				      cy.postUser(user)
+				        .then(response => {
+
+				          const { message } = response.body
+
+				          expect(response.status).to.eq(400)
+				          expect(message).to.eq('ValidationError: \"name\" is required')
+				        })
+				    })
+
+				    it('email is required',function()  {
+
+				      delete user.email
+
+				      cy.postUser(user)
+				        .then(response => {
+
+				          const { message } = response.body
+
+				          expect(response.status).to.eq(400)
+				          expect(message).to.eq('ValidationError: \"email\" is required')
+				        })
+				    })
+
+
+				    it('password is required',function()  {
+
+				      delete user.password
+
+				      cy.postUser(user)
+				        .then(response => {
+
+				          const { message } = response.body
+
+				          expect(response.status).to.eq(400)
+				          expect(message).to.eq('ValidationError: \"password\" is required')
+				        })
+				    })
+
+				  })
+				})
+
+	

@@ -1,0 +1,35 @@
+ {
+    "login": {
+      "name": "jefferson",
+      "email": "jefferson@hotmail.com",
+      "password": "141620"
+    },
+  
+    "inv_pass": {
+      "email": "abmael_ninha@hotmail.com",
+      "password": "14162"
+    },
+  
+    "email_404": {
+      "email": "abma_ninha@hotmail.com",
+      "password": "141620"
+    },
+
+    "create": {
+      "name": "margo",
+      "email": "margo@hotmail.com",
+      "password": "141620"
+    },
+    "dup_email": {
+      "name": "margo",
+      "email": "margo@hotmail.com",
+      "password": "141620"
+    },
+    "required": {
+      "name": "margo",
+      "email": "margo@hotmail.com",
+      "password": "141620"
+    }
+  }
+
+
