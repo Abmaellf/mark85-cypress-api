@@ -1,0 +1,17 @@
+{
+    "create": {
+        "user": {
+            "name": "abmael",
+            "email": "abmael_ninha@hotmail.com",
+            "password": "141620"
+        },
+        "task": {
+            "name": "Pagar a fatura do cartão",
+            "tags": [
+                "nubank",
+                "smiles",
+                "ourocard"
+            ]
+        }
+    }
+}

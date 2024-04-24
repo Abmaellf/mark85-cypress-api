@@ -1058,4 +1058,212 @@
 				  })
 				})
 
+
+=============================================================================================================================		
+==========================================================    25. Testando com token          ==================================	
+
+	####  Testando pela insominia
 	
+	REQUEST
+		POST http://localhost:3333/tasks
+		BODY JSON
+		
+			{
+				"name": "Pagar minhas contas",
+				"tags": [
+					"nubank",
+					"smail",
+					"ourocard"
+				]
+			}
+		HEADERS 
+		
+				Content-Type
+				application/json
+
+
+				User-Agent
+				insomnia/8.6.1
+
+
+				Authorization	
+					  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MWU4MjkxMjFlOGExZjBhYzkwYzUx
+					   YyIsInVzZXIiOnsiX2lkIjoiNjYxZTgyOTEyMWU4YTFmMGFjOTBj 
+					   NTFjIiwibmFtZSI6ImFibWFlbCIsImVtYWlsIjoiYWJtYWVsX25pbmhhQ
+					   GhvdG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMDgkRDVHbVpMVGpIZUMvQlVoblRNQ0FW
+					   ZWRXbFR5WEtVSGk1V3JIaWxHckl6QWh3Zm9uTHhPLzIifSwiaWF0IjoxNzEzOTAwMTExLCJleHAiO
+					   jE3MTQ3NjQxMTF9.avKA1SMA69wdYd2PiddkuxW6YuExHruNcVgvNeI1KZo
+	RESPONSE
+	
+		PREVIEW
+		
+			{
+				"name": "Pagar minhas contas",
+				"is_done": false,
+				"tags": [
+					"nubank",
+					"smail",
+					"ourocard"
+				],
+				"user": "661e829121e8a1f0ac90c51c",
+				"_id": "66291765463386d60bef123b"
+			}
+		
+		
+=============================================================================================================================		
+==========================================================    26. Adicionando o token no header            ==================================	
+
+	### Criando uma nova Swit de teste chamada task
+	
+		describe('POST /task', () => {
+
+		    it('register a new task', function() {
+		        
+		    })
+		    
+		})
+		
+		
+		
+	### Criand a fixture task
+	
+	Dentro de fixture vamos criar  um arquivo chamado tasks.json
+	
+		{
+		    "create": {
+		        "user": {
+		            "name": "jefferson",
+		            "email": "jefferson@hotmail.com",
+		            "password": "141620"
+		        },
+		        "task": {
+		            "name": "Pagar a fatura do cartão",
+		            "tags": [
+		                "nubank",
+		                "smiles",
+		                "ourocard"
+		            ]
+		        }
+		    }
+		}
+
+	### Retornando ao nosso teste
+	
+			describe('POST /task', () => {
+
+		   beforeEach(function () {
+		    cy.fixture('tasks').then(function (){
+		        this.tasks =  tasks
+		    })
+		   })
+
+		    it('register a new task', function() {
+		        
+		        const { user, task } = this.tasks.create
+		        cy.api({
+		            url: '/tasks',
+		            method: 'POST',
+		            body: task,
+		            failOnStatusCode: false
+		        }).then(response => {
+		            expect(response.status).to.eq(200)
+		        })
+		    })
+		})
+		
+	####  Com esse nosso teste dessa forma obtivemos um retono 401 Unauthorized
+	
+		
+		assertexpected 401 to equal 200
+		
+		
+			AssertionError
+			expected 401 to equal 200
+			cypress/e2e/tasks.cy.js:18:40
+			  16 |             failOnStatusCode: false
+			  17 |         }).then(response => {
+			> 18 |             expect(response.status).to.eq(200)
+			     |                                        ^
+			  19 |         })
+			  20 |     })
+			  21 | 
+
+
+	####  Ajustando para receber o token armazenar e utilizar no register a new task
+	
+	
+			describe('POST /task', () => {
+
+			   beforeEach(function () {
+			    cy.fixture('tasks').then(function (tasks){
+			        this.tasks =  tasks
+			    })
+			   })
+
+			    it('register a new task', function() {
+			        
+			        const { user, task } = this.tasks.create
+			        
+			###################
+			#
+			#   RELEMBRANDO COMO FUNCIONA O COMMAND 	'postSession'
+			#					
+			#	Cypress.Commands.add('postSession', (user)=> {
+			#
+			#	  cy.api({
+			#	      url:'/sessions',
+			#	      method:'POST',
+			#	      body: {email:user.email, password: user.password},
+			#	      failOnStatusCode:false,
+			#	  }).then(response => {
+			#	      return response
+			#	  })
+			#
+			#	})
+			#######################
+			
+			        cy.postSession(user)
+			            .then(response => {
+			                cy.log(response.body.token)
+
+			                cy.api({
+				url: '/tasks',
+				method: 'POST',
+				body: task,
+				headers: {
+				    authorization: response.body.token
+				},
+				failOnStatusCode: false
+			                }).then(response => {
+				expect(response.status).to.eq(200)
+			                })
+			                Cypress.env('token', response.body.token)
+			            })
+    
+			    })
+
+			})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
