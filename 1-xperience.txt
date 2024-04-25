@@ -1580,9 +1580,71 @@
 =============================================================================================================================		
 ==========================================================   29. Tarefa duplicada          ===================================	
 	
+	### Vamos criar o teste que  valida quando uma tarefa é duplicada
+	
+		## Vamos acessar a fixture de task e vamos adicionar mais uma massa de testes chamada dup
+		
+			{
+			    "create": {
+			        "user": {
+			            "name": "abmael",
+			            "email": "abmael_ninha@hotmail.com",
+			            "password": "141620"
+			        },
+			        "task": {
+			            "name": "Pagar a fatura do cartão",
+			            "tags": [
+			                "nubank",
+			                "smiles",
+			                "ourocard"
+			            ]
+			        }
+			    },
+
+
+			    "dup": {
+			        "user": {
+			            "name": "Jean Grey",
+			            "email": "fenix@xmem.com",
+			            "password": "141620"
+			        },
+			        "task": {
+			            "name": "Fazer compras no mercado",
+			            
+			        }
+			    }
+			}
 			
 	
+	### Vamos copiar ao nosso it test register a new task e vamos renomer para duplicate task
 	
+		it('duplicate task', function () {
+
+		        const { user, task } = this.tasks.dup
+
+		        cy.task('deleteUser', user.email)
+
+		        cy.postUser(user)
+
+		        cy.postSession(user)
+		            .then(userResp => {
+
+		                cy.task('deleteTask', task.name, user.email)
+
+		                cy.postTask(task, userResp.body.token)
+		                cy.postTask(task, userResp.body.token)
+			.then(response => {
+			    expect(response.status).to.eq(409)
+			    expect(response.body.message).to.eq('Duplicated task!')
+			    
+			})
+
+		                // Cypress.env('token', response.body.token)
+		            })
+
+		    })
+	
+		
 	
 	
 	
